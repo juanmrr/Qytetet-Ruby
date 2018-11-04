@@ -75,16 +75,34 @@ module ModeloQytetet
   
   public
   
-  def es_casilla_carcel
-    raise NotImplementedError 
+  def es_casilla_carcel(numero_casilla)
+    
+    es_carcel = false
+    
+    if (numero_casilla == @carcel.numero_casilla)
+      es_carcel = true
+    end
+    
+    es_carcel
+    
   end
   
   def obtener_casilla_final(casilla, desplazamiento)
-    raise NotImplementedError 
+    
+    posicion = casillas.index(casilla)
+    
+    aux = casillas.at(posicion + desplazamiento)
+    
+    aux
+    
   end
   
   def obtener_casilla_numero(numero_casilla)
-    raise NotImplementedError 
+    
+    casilla = casillas.at(numero_casilla)
+    
+    casilla
+    
   end
   
   def to_s

@@ -42,15 +42,27 @@ class Casilla
   end
   
   def propietario_encarcelado
-    raise NotImplementedError 
+    
+    @titulo.propietario_encarcelado
+    
   end
   
   def soy_edificable
-    raise NotImplementedError 
+    
+    aux = false
+    
+    if (@tipo == TipoCasilla::CALLE)
+      aux = true
+    end
+    
+    aux
+    
   end
   
   def tengo_propietario
-    raise NotImplementedError 
+    
+    @titulo.tengo_propietario
+    
   end
   
   def to_s

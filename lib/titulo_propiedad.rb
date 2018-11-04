@@ -3,6 +3,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+require_relative "jugador"
+
 module ModeloQytetet
 
 class TituloPropiedad
@@ -61,11 +63,27 @@ class TituloPropiedad
   end
   
   def propietario_encarcelado
-    raise NotImplementedError 
+    
+    aux = false
+    
+    if (@propietario.encarcelado)
+      aux = true
+    end
+    
+    aux
+    
   end
   
   def tengo_propietario
-    raise NotImplementedError 
+    
+    aux = false
+    
+    if (@propietario != nil)
+      aux = true
+    end
+    
+    aux
+    
   end
   
   def to_s

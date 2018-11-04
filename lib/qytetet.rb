@@ -9,6 +9,7 @@ require_relative "tipo_sorpresa"
 require_relative "tablero"
 require_relative "dado"
 require_relative "jugador"
+require_relative "estado_juego"
 
 module ModeloQytetet
 
@@ -29,11 +30,12 @@ class Qytetet
     @dado = Dado.instance
     @jugadores = Array.new
     @jugador_actual = nil
+    @estado_juego = nil
   end
     
   private
   
-  attr_writer :carta_actual
+  attr_writer :carta_actual, :estado_juego
   
   public
   
@@ -88,7 +90,17 @@ class Qytetet
   end
   
   def jugar
-    raise NotImplementedError 
+    
+    int tirada = tirar_dado
+    
+    casilla = @tablero.obtener_casilla_final(@jugador_actual.casilla_actual, tirada)
+    
+    mover(casilla.numero_casilla)
+    
+  end
+  
+  def mover(num_casilla_destino)
+    
   end
   
   def obtener_casilla_jugador_actual
@@ -100,27 +112,83 @@ class Qytetet
   end
   
   def obtener_propiedades_jugador
-    raise NotImplementedError 
+    
+    aux = Array.new
+    
+    prop = Array.new
+    
+    prop = @jugador_actual.propiedades
+    
+    @tablero.casillas.each do |i|
+      if (prop.include?(i.titulo))
+        aux << i.numero_casilla
+      end
+    end
+    
+    aux
+    
   end
   
   def obtener_propiedades_jugador_segun_estado_hipoteca(estado_hipoteca)
-    raise NotImplementedError 
+    
+    aux = Array.new
+    
+    prop = Array.new
+    
+    prop = @jugador_actual.obtener_propiedades(estado_hipoteca)
+    
+    @tablero.casillas.each do |i|
+      if (prop.include?(i.titulo))
+        aux << i.numero_casilla
+      end
+    end
+    
+    aux
+    
   end
   
   def obtener_ranking
-    raise NotImplementedError 
+    
+    @jugadores = @jugadores.sort
+    
   end
   
   def obtener_saldo_jugador_actual
-    raise NotImplementedError 
+    
+    @jugador_actual.saldo
+    
   end
   
   def siguiente_jugador
-    raise NotImplementedError 
+    
+    jugador = @jugadores.index(@jugador_actual)
+    
+    @jugador_actual = @jugadores.at((jugador +1) % @jugadores.length)
+    
+    if (@jugador_actual.encarcelado)
+      @estado_juego = EstadoJuego::JA_ENCARCELADOCONOPCIONDELIBERTAD
+    else
+      @estado_juego = EstadoJuego::JA_PREPARADO
+    end
+    
   end
   
   def vender_propiedad(numero_casilla)
     raise NotImplementedError 
+  end
+  
+  def tirar_dado
+    
+    int tirada = @dado.tirar
+    
+    tirada
+    
+  end
+  
+  def get_valor_dado
+    
+    @dado.valor
+    
   end
   
   private
@@ -174,7 +242,16 @@ class Qytetet
   end
   
   def salida_jugadores
-    raise NotImplementedError 
+    
+    @jugadores.each do |i|
+      i.casilla_actual = @tablero.casillas.at(0)
+      @estado_juego = EstadoJuego::JA_PREPARADO
+    end
+    
+    jugador = rand(@jugadores.length - 1)
+    
+    @jugador_actual = @jugadores.at(jugador)
+    
   end
   
 end

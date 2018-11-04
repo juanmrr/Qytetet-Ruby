@@ -17,7 +17,13 @@ class Dado
   end
   
   def tirar
-    raise NotImplementedError 
+    
+    tirada = rand(1..6)
+    
+    @valor = tirada
+    
+    tirada
+    
   end
   
 end

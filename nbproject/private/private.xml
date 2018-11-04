@@ -3,18 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/sorpresa.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/tipo_casilla.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/jugador.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/dado.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/metodo_salir_carcel.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/titulo_propiedad.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/modelo_qytetet.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/casilla.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/estado_juego.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/prueba_qytetet.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/tablero.rb</file>
-            <file>file:/home/juanma/NetBeansProjects/QytetetRuby/lib/qytetet.rb</file>
+            <file>file:/home/juanma/Documentos/git/Qytetet-Ruby/lib/casilla.rb</file>
+            <file>file:/home/juanma/Documentos/git/Qytetet-Ruby/lib/jugador.rb</file>
         </group>
     </open-files>
 </project-private>
