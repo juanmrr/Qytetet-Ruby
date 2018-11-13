@@ -3,8 +3,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require_relative "tipo_casilla"
-require_relative "titulo_propiedad"
+#require_relative "tipo_casilla"
+#require_relative "titulo_propiedad"
 
 module ModeloQytetet
 
@@ -18,6 +18,8 @@ class Casilla
     @tipo = tipo
     @titulo = titulo
   end
+  
+  attr_accessor :titulo
   
   attr_reader :numero_casilla, :coste, :tipo
   
@@ -34,11 +36,19 @@ class Casilla
   end
   
   def asignar_propietario(jugador)
-    raise NotImplementedError 
+    
+    @titulo.propietario = jugador
+    
+    return @titulo
+    
   end
   
   def pagar_alquiler
-    raise NotImplementedError 
+    
+    coste_alquiler = @titulo.pagar_alquiler
+    
+    coste_alquiler
+    
   end
   
   def propietario_encarcelado
@@ -71,7 +81,7 @@ class Casilla
     
     if (@titulo != nil)
       
-      aux = aux + @titulo.to_s
+      aux = aux + ", Titulo Propiedad: #{@titulo}"
      
     end
     
@@ -80,10 +90,6 @@ class Casilla
     aux
     
   end
-  
-  private 
-  
-  attr_accessor :titulo
   
 end
 

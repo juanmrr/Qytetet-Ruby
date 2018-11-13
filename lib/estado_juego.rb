@@ -2,13 +2,13 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-module Qytetet
+module ModeloQytetet
 
 module EstadoJuego
     
   JA_CONSORPRESA = :con_sorpresa
-  ALGUNJUGADORENBANCARROTA = :algun_jugador_con_bancarrota
-  JA_PUEDECOMPRAROGESTIONAR = :puede_comprar_gestionar
+  ALGUNJUGADORENBANCARROTA = :algun_jugador_en_bancarrota
+  JA_PUEDECOMPRARGESTIONAR = :puede_comprar_gestionar
   JA_PUEDEGESTIONAR = :puede_gestionar
   JA_PREPARADO = :preparado
   JA_ENCARCELADO = :encarcelado

@@ -3,7 +3,7 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require_relative "jugador"
+#require_relative "jugador"
 
 module ModeloQytetet
 
@@ -16,7 +16,7 @@ class TituloPropiedad
     @alquiler_base = alquiler_base
     @factor_revalorizacion = factor_revalorizacion
     @hipoteca_base = hipoteca_base
-    @precio_edificar = precio_edificar
+    @precio_edficar = precio_edificar
     @num_hoteles = 0
     @num_casas = 0
     @propietario = nil
@@ -24,22 +24,44 @@ class TituloPropiedad
   
   attr_reader :nombre, :hipotecada, :precio_compra, :alquiler_base, :factor_revalorizacion, :hipoteca_base, :precio_edficar, :num_hoteles, :num_casas, :propietario
   
-  attr_writer :propietario, :hipotecada  
+  attr_writer :propietario, :hipotecada
   
   def calcular_coste_cancelar
-    raise NotImplementedError 
+    
+    coste_cancelar = calcular_coste_hipotecar * 1.1
+    
+    coste_cancelar
+    
   end
   
   def calcular_coste_hipotecar
-    raise NotImplementedError 
+    
+    coste_hipoteca = @hipoteca_base * (1 + (@num_casas * 0.5 + @num_hoteles * 2))
+    
+    coste_hipoteca
+    
   end
   
   def calcular_importe_alquiler
-    raise NotImplementedError 
+    
+    coste_alquiler = (@alquiler_base * ((@num_casas * 0.5 + @num_hoteles * 2) + 1))
+    
+    coste_alquiler
+    
+  end
+  
+  def calcular_precio_venta
+    
+    precio_venta = @precio_compra + (@num_casas + @num_hoteles) * @precio_edficar * @factor_revalorizacion
+    
+    precio_venta
+    
   end
   
   def cancelar_hipoteca
-    raise NotImplementedError 
+    
+    @hipotecada = false
+    
   end
   
   def cobrar_alquiler
@@ -47,19 +69,35 @@ class TituloPropiedad
   end
   
   def edificar_casa
-    raise NotImplementedError 
+    
+    @num_casas = @num_casas + 1
+   
   end
   
   def edificar_hotel
-    raise NotImplementedError 
+    r
+    @num_hoteles = @num_hoteles + 1
+    
   end
   
   def hipotecar
-    raise NotImplementedError 
+    
+    coste_hipoteca = calcular_coste_hipotecar
+    
+    @hipotecada = true
+    
+    coste_hipoteca
+    
   end
   
   def pagar_alquiler
-    raise NotImplementedError 
+    
+    coste_alquiler = calcular_importe_alquiler
+    
+    @propietario.modificar_saldo(coste_alquiler)
+    
+    coste_alquiler
+    
   end
   
   def propietario_encarcelado
@@ -92,7 +130,7 @@ class TituloPropiedad
       
     if (propietario != nil)
       
-      cadena = cadena + ", propietario: #{@propietario}"
+      cadena = cadena + ", propietario: #{@propietario.nombre}"
       
     else
       

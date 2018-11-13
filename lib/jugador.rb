@@ -3,9 +3,9 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require_relative "casilla"
-require_relative "titulo_propiedad"
-require_relative "sorpresa"
+#require_relative "casilla"
+#require_relative "titulo_propiedad"
+#require_relative "sorpresa"
 
 module ModeloQytetet
 
@@ -22,21 +22,46 @@ class Jugador
   
   attr_reader :carta_libertad, :casilla_actual, :encarcelado, :nombre, :propiedades, :saldo
   
-  attr_writer :carta_libertad, :casilla_actual, :encarcelado
+  attr_writer :carta_libertad, :casilla_actual, :encarcelado, :propiedades, :saldo
   
   def cancelar_hipoteca(titulo)
-    raise NotImplementedError 
+    
+    cancelar = false
+    
+    cantidad = titulo.calcular_coste_cancelar
+    
+    if (@saldo > cantidad)
+      modificar_saldo(-cantidad)
+      cancelar = true
+      titulo.cancelar_hipoteca
+    end
+    
+    cancelar
+    
   end
   
   def comprar_titulo_propiedad
-    raise NotImplementedError 
+    
+    comprado = false
+    
+    coste_compra = @casilla_actual.coste
+    
+    if (coste_compra < @saldo)
+      titulo = @casilla_actual.asignar_propietario(self)
+      comprado = true
+      @propiedades << titulo
+      modificar_saldo(-coste_compra)
+    end
+    
+    comprado
+    
   end
   
   def cuantas_casas_hoteles_tengo
    
     total = 0
     
-    @propiedaes.each do |i|
+    @propiedades.each do |i|
       total = total + i.num_casas + i.num_hoteles
     end
     
@@ -45,7 +70,23 @@ class Jugador
   end
   
   def debo_pagar_alquiler
-    raise NotImplementedError 
+    
+    debo_pagar = false
+    
+    titulo = @casilla_actual.titulo
+    
+    es_de_mi_propiedad = es_de_mi_propiedad(titulo)
+    
+    tiene_propietario = !es_de_mi_propiedad && titulo.tengo_propietario
+    
+    encarcelado = !es_de_mi_propiedad && tiene_propietario && titulo.propietario_encarcelado
+    
+    esta_hipotecada = !es_de_mi_propiedad && tiene_propietario && !encarcelado && titulo.hipotecada
+    
+    debo_pagar = !es_de_mi_propiedad && tiene_propietario && !encarcelado && !esta_hipotecada
+    
+    debo_pagar
+    
   end
   
   def devolver_carta_libertad
@@ -59,11 +100,43 @@ class Jugador
   end
   
   def edificar_casa(titulo)
-    raise NotImplementedError 
+    
+    edificada = false
+    
+    num_casas = titulo.num_casas
+    
+    if (num_casas < 4)
+      coste_edificar_casa = titulo.precio_edficar
+      tengo_saldo = tengo_saldo(coste_edificar_casa)
+      if (tengo_saldo)
+        titulo.edificar_casa
+        modificar_saldo(-coste_edificar_casa)
+        edificada = true
+      end
+    end
+    
+    edificada
+    
   end
   
   def edificar_hotel(titulo)
-    raise NotImplementedError 
+    
+    edificado = false
+    
+    num_hoteles = titulo.num_hoteles
+    
+    if (num_hoteles < 4)
+      coste_edificar_hotel = titulo.precio_edficar
+      tengo_saldo = tengo_saldo(coste_edificar_hotel)
+      if (tengo_saldo)
+        titulo.edificar_hotel
+        modificar_saldo(-coste_edificar_hotel)
+        edificado = true
+      end
+    end
+    
+    edificado
+    
   end
   
   def estoy_en_calle_libre
@@ -71,11 +144,19 @@ class Jugador
   end
   
   def hipotecar_propiedad(titulo)
-    raise NotImplementedError 
+    
+    coste_hipoteca = titulo.hipotecar
+    
+    modificar_saldo(coste_hipoteca)
+    
   end
   
   def ir_a_carcel(casilla)
-    raise NotImplementedError 
+    
+    @casilla_actual = casilla
+    
+    @encarcelado = true
+    
   end
   
   def modificar_saldo(cantidad)
@@ -89,7 +170,7 @@ class Jugador
     capital = @saldo
     
     @propiedades.each do |i|
-      capital = capital + i.precio_compra + (i.num_casas + i.num_hoteles) * i.precio_edficar
+      capital = capital + (i.num_casas + i.num_hoteles) * i.precio_edficar
       if (i.hipotecada)
         capital = capital - i.hipoteca_base
       end
@@ -114,17 +195,28 @@ class Jugador
   end
   
   def pagar_alquiler
-    raise NotImplementedError 
+   
+    coste_alquiler = @casilla_actual.pagar_alquiler
+    
+    modificar_saldo(-coste_alquiler)
+    
   end
   
   def pagar_impuesto
     
-    self.modificar_saldo(-@casilla_actual.coste)
+    self.modificar_saldo(@casilla_actual.coste)
     
   end
   
   def pagar_libertad(cantidad)
-    raise NotImplementedError 
+    
+    tengo_saldo = tengo_saldo(cantidad)
+    
+    if (tengo_saldo)
+      @encarcelado = false
+      modificar_saldo(-cantidad)
+    end
+    
   end
   
   def tengo_carta_libertad
@@ -139,15 +231,27 @@ class Jugador
     
   end
   
-  def vender_propiedad
-    raise NotImplementedError 
+  def vender_propiedad(casilla)
+    
+    titulo = casilla.titulo
+    
+    eliminar_de_mis_propiedades(titulo)
+    
+    precio_venta = titulo.calcular_precio_venta
+    
+    modificar_saldo(precio_venta)
+    
+  end
+  
+  def eliminar_de_mis_propiedades(titulo)
+    
+    @propiedades.delete(titulo)
+    
+    titulo.propietario = nil
+    
   end
   
   private
-  
-  def eliminar_de_mis_propiedades(titulo)
-    raise NotImplementedError 
-  end
   
   def es_de_mi_propiedad(titulo)
     
@@ -175,6 +279,8 @@ class Jugador
     
   end
   
+  public
+  
   def to_s
     
     aux = "{" + "Nombre: #{@nombre}" + ", encarcelado: #{@encarcelado}" + ", saldo: #{@saldo}" + ", capital: #{obtener_capital}"
@@ -187,7 +293,7 @@ class Jugador
       aux = aux + ", el jugador no tiene propiedades"
     else
       @propiedades.each do |i|
-        aux = aux + i.nombre + ", "
+        aux = aux + ", " + i.nombre
       end
     end
     
@@ -208,7 +314,7 @@ class Jugador
   end
 
   def <=>(otroJugador)            
-    otroJugador.obtenerCapital <=> obtenerCapital     
+    otroJugador.obtener_capital <=> obtener_capital     
   end
 
 

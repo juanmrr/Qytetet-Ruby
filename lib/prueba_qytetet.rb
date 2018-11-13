@@ -6,6 +6,14 @@
 require_relative "qytetet"
 require_relative "sorpresa"
 require_relative "tipo_sorpresa"
+require_relative "jugador"
+require_relative "casilla"
+require_relative "dado"
+require_relative "estado_juego"
+require_relative "metodo_salir_carcel"
+require_relative "tipo_casilla"
+require_relative "titulo_propiedad"
+require_relative "tablero"
 
 module ModeloQytetet
 
@@ -87,39 +95,64 @@ class PruebaQytetet
     @@juego.inicializar_juego(nombres)
     
     @@juego.jugadores.each do |i|
-      puts i
+      puts i.to_s
     end
     
-    @@juego.mazo.each do |i|
-      puts i
-    end
-
-    aux = mayor_que_cero
+    @@juego.mover(2)
     
-    aux.each do |i|
-      puts i
-    end
-
-    aux = ir_a_casilla
-    
-    aux.each do |i|
-      puts i
-    end
-
-    tipos = TipoSorpresa.constants
-
-    tipos.each do |i|
-      aux = tipos(TipoSorpresa.const_get(i))
-        aux.each do |i|
-          puts i
-        end
+    @@juego.jugadores.each do |i|
+      puts i.to_s
     end
     
-    aux = @@juego.tablero.casillas
+    @@juego.comprar_titulo_propiedad
     
-    aux.each do |i|
-      puts i
+    @@juego.edificar_casa(2)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
     end
+    
+    @@juego.siguiente_jugador
+    
+    @@juego.mover(18)
+    
+    @@juego.mover(4)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.siguiente_jugador
+    
+    @@juego.hipotecar_propiedad(2)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.cancelar_hipoteca(2)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.vender_propiedad(2)
+    
+    @@juego.obtener_ranking
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.mover(2)
+    
+    @@juego.aplicar_sorpresa
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    
     
   end
   

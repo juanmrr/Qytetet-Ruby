@@ -3,7 +3,7 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require_relative "tipo_sorpresa"
+#require_relative "tipo_sorpresa"
 
 module ModeloQytetet
 
