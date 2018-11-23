@@ -138,6 +138,8 @@ class PruebaQytetet
     
     @@juego.vender_propiedad(2)
     
+    puts "Ranking\n"
+    
     @@juego.obtener_ranking
     
     @@juego.jugadores.each do |i|
@@ -152,7 +154,27 @@ class PruebaQytetet
       puts i.to_s
     end
     
+    @@juego.mover(1)
     
+    #@@juego.intenta_salir_carcel(MetodoSalirCarcel::PAGANDOLIBERTAD)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.siguiente_jugador
+    
+    @@juego.mover(3)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
+    
+    @@juego.mover(10)
+    
+    @@juego.jugadores.each do |i|
+      puts i.to_s
+    end
     
   end
   

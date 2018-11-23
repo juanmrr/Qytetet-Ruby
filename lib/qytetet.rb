@@ -260,7 +260,7 @@ class Qytetet
     
     @jugador_actual.casilla_actual = casilla_final
     
-    if (num_casilla_destino < casilla_inicial.numero_casilla)
+    if (casilla_final.numero_casilla < casilla_inicial.numero_casilla)
       @jugador_actual.modificar_saldo(@@SALDOSALIDA)
     end
     
